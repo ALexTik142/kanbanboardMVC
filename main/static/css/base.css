@@ -1,0 +1,25 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+.header {
+    background-color: #28a745;
+    color: #fff;
+    padding: 10px;
+}
+.navbar {
+    background-color: #f8f9fa;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+}
+.navbar a {
+    color: #333;
+    text-decoration: none;
+    margin-right: 10px;
+}
+.container {
+    margin-top: 20px;
+}
