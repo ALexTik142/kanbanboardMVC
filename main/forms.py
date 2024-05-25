@@ -2,7 +2,7 @@ from .models import Task
 from django.forms import ModelForm, TextInput, Textarea
 
 
-class TaskForm(ModelForm):  #Формочка ввода данных
+class TaskForm(ModelForm):
     class Meta:
          model = Task
          fields = ["title", "task"]

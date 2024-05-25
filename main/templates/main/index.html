@@ -1,34 +1,30 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-{{ title }}
+Канбан доска
 {% endblock %}
 
 {% block content %}
-    <style>
-        .task-actions {
-            position: absolute;
-            top: 50%;
-            right: 0;
-            transform: translateY(-50%);
-        }
-    </style>
-
-    <h1>Монитор задач</h1>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'main/css/index.css' %}">
     {% if tasks %}
        {% for task in tasks %}
-           <div class="alert alert-warning mt-2" style="position: relative;">
-               <h3>{{ task.title }}</h3>
-               <p>{{ task.task }}</p>
-               <div class="task-actions">
-                   <form method="post" action="{% url 'task-update' task.id %}">
-                       {% csrf_token %}
-                       <button type="submit" class="btn btn-success">Изменить</button>
-                   </form>
-                   <form method="post" action="{% url 'task-delete' task.id %}">
-                       {% csrf_token %}
-                       <button type="submit" class="btn btn-danger">Удалить</button>
-                   </form>
+           <div class="alert alert-warning mt-3">
+               <div class="d-flex justify-content-between align-items-start">
+                   <div>
+                       <h3>{{ task.title }}</h3>
+                       <p class="task-description">{{ task.task }}</p>
+                   </div>
+                   <div class="task-actions">
+                       <form method="post" action="{% url 'task-update' task.id %}" class="d-inline">
+                           {% csrf_token %}
+                           <button type="submit" class="btn btn-success me-2">Изменить</button>
+                       </form>
+                       <form method="post" action="{% url 'task-delete' task.id %}" class="d-inline">
+                           {% csrf_token %}
+                           <button type="submit" class="btn btn-outline-danger">Удалить</button>
+                       </form>
+                   </div>
                </div>
            </div>
        {% endfor %}
