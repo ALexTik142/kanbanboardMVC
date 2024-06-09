@@ -6,6 +6,7 @@
         {% csrf_token %}
         {{ form.title }}<br>
         {{ form.task }}<br>
+        {{ form.status }}<br>
         <button type="submit" class="btn btn-success">Сохранить изменения</button>
         <span>{{ error }}</span>
     </form>
