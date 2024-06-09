@@ -16,10 +16,7 @@
                        <p class="task-description">{{ task.task }}</p>
                    </div>
                    <div class="task-actions">
-                       <form method="post" action="{% url 'task-update' task.id %}" class="d-inline">
-                           {% csrf_token %}
-                           <button type="submit" class="btn btn-success me-2">Изменить</button>
-                       </form>
+                       <a href="{% url 'task-update' task.id %}" class="btn btn-success me-2">Изменить</a>
                        <form method="post" action="{% url 'task-delete' task.id %}" class="d-inline">
                            {% csrf_token %}
                            <button type="submit" class="btn btn-outline-danger">Удалить</button>
