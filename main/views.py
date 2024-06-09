@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Task
-from .forms import TaskForm
+from .models import Task, Status
+from .forms import TaskFormCreate, TaskFormUpdate
 
 
 def index(request):
@@ -15,14 +15,14 @@ def about(request):
 def create(request):
     error = ''
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskFormCreate(request.POST)
         if form.is_valid():
             form.save()
             return redirect('home')
         else:
             error = 'Форма была неверной'
 
-    form = TaskForm()
+    form = TaskFormCreate()
     context = {
         'form': form,
         'error': error
@@ -32,15 +32,17 @@ def create(request):
 
 def update_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
+    statuses = Status.objects.all()  # Предполагается, что у вас есть модель Status
+
     if request.method == 'POST':
-        form = TaskForm(request.POST, instance=task)
+        form = TaskFormUpdate(request.POST, instance=task)
         if form.is_valid():
             form.save()
             return redirect('home')
     else:
-        form = TaskForm(instance=task)
+        form = TaskFormUpdate(instance=task)
 
-    return render(request, 'main/update.html', {'form': form, 'task': task})
+    return render(request, 'main/update.html', {'form': form, 'task': task, 'statuses': statuses})
 
 
 def delete_task(request, task_id):
