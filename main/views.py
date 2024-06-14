@@ -4,8 +4,17 @@ from .forms import TaskFormCreate, TaskFormUpdate
 
 
 def index(request):
-    tasks = Task.objects.all()
-    return render(request, 'main/index.html', {'title': 'Главная страница сайта', 'tasks': tasks})
+    tasks_done = Task.objects.filter(status__name_status='Выполнить')
+    tasks_in_progress = Task.objects.filter(status__name_status='В работе')
+    tasks_completed = Task.objects.filter(status__name_status='Готово')
+    tasks_under_review = Task.objects.filter(status__name_status='На проверке')
+
+    return render(request, 'main/index.html', {
+        'tasks_done': tasks_done,
+        'tasks_in_progress': tasks_in_progress,
+        'tasks_completed': tasks_completed,
+        'tasks_under_review': tasks_under_review
+    })
 
 
 def about(request):
