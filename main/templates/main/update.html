@@ -1,11 +1,16 @@
 {% extends 'main/base.html' %}
 
+{% block title %}
+Изменить задачу
+{% endblock %}
+
 {% block content %}
     <h1>Изменить задачу</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.title }}<br>
         {{ form.task }}<br>
+        {{ form.status }}<br>
         <button type="submit" class="btn btn-success">Сохранить изменения</button>
         <span>{{ error }}</span>
     </form>

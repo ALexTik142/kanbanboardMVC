@@ -1,11 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Task
-from .forms import TaskForm
+from .models import Task, Status
+from .forms import TaskFormCreate, TaskFormUpdate
+from .config import column_names
 
 
 def index(request):
-    tasks = Task.objects.all()
-    return render(request, 'main/index.html', {'title': 'Главная страница сайта', 'tasks': tasks})
+    statuses_dict = {}
+    for coloumn_name in column_names:
+        statuses_dict[coloumn_name] = Task.objects.filter(status__name_status=coloumn_name)
+
+    processed_data = [{'column_name': key, 'tasks': value} for key, value in statuses_dict.items()]
+    return render(request, 'main/index.html', {'processed_data': processed_data})
 
 
 def about(request):
@@ -15,14 +20,14 @@ def about(request):
 def create(request):
     error = ''
     if request.method == 'POST':
-        form = TaskForm(request.POST)
+        form = TaskFormCreate(request.POST)
         if form.is_valid():
             form.save()
             return redirect('home')
         else:
             error = 'Форма была неверной'
 
-    form = TaskForm()
+    form = TaskFormCreate()
     context = {
         'form': form,
         'error': error
@@ -32,15 +37,17 @@ def create(request):
 
 def update_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
+    statuses = Status.objects.all()
+
     if request.method == 'POST':
-        form = TaskForm(request.POST, instance=task)
+        form = TaskFormUpdate(request.POST, instance=task)
         if form.is_valid():
             form.save()
             return redirect('home')
     else:
-        form = TaskForm(instance=task)
+        form = TaskFormUpdate(instance=task)
 
-    return render(request, 'main/update.html', {'form': form, 'task': task})
+    return render(request, 'main/update.html', {'form': form, 'task': task, 'statuses': statuses})
 
 
 def delete_task(request, task_id):

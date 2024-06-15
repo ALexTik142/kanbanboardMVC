@@ -7,28 +7,14 @@
 {% block content %}
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/index.css' %}">
-    {% if tasks %}
-       {% for task in tasks %}
-           <div class="alert alert-warning mt-3">
-               <div class="d-flex justify-content-between align-items-start">
-                   <div>
-                       <h3>{{ task.title }}</h3>
-                       <p class="task-description">{{ task.task }}</p>
-                   </div>
-                   <div class="task-actions">
-                       <form method="post" action="{% url 'task-update' task.id %}" class="d-inline">
-                           {% csrf_token %}
-                           <button type="submit" class="btn btn-success me-2">Изменить</button>
-                       </form>
-                       <form method="post" action="{% url 'task-delete' task.id %}" class="d-inline">
-                           {% csrf_token %}
-                           <button type="submit" class="btn btn-outline-danger">Удалить</button>
-                       </form>
-                   </div>
-               </div>
-           </div>
-       {% endfor %}
-    {% else %}
-        <p>У нас нет записей</p>
-    {% endif %}
+    <div class="row">
+        {% for data in processed_data %}
+            <div class="col">
+                <h2>{{ data.column_name }}</h2>
+                {% for task in data.tasks %}
+                    {% include 'main/task_card.html' %}
+                {% endfor %}
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}
