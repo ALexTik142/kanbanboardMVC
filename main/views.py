@@ -1,20 +1,16 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Task, Status
 from .forms import TaskFormCreate, TaskFormUpdate
+from .config import column_names
 
 
 def index(request):
-    tasks_done = Task.objects.filter(status__name_status='Выполнить')
-    tasks_in_progress = Task.objects.filter(status__name_status='В работе')
-    tasks_completed = Task.objects.filter(status__name_status='Готово')
-    tasks_under_review = Task.objects.filter(status__name_status='На проверке')
+    statuses_dict = {}
+    for coloumn_name in column_names:
+        statuses_dict[coloumn_name] = Task.objects.filter(status__name_status=coloumn_name)
 
-    return render(request, 'main/index.html', {
-        'tasks_done': tasks_done,
-        'tasks_in_progress': tasks_in_progress,
-        'tasks_completed': tasks_completed,
-        'tasks_under_review': tasks_under_review
-    })
+    processed_data = [{'column_name': key, 'tasks': value} for key, value in statuses_dict.items()]
+    return render(request, 'main/index.html', {'processed_data': processed_data})
 
 
 def about(request):
@@ -41,7 +37,7 @@ def create(request):
 
 def update_task(request, task_id):
     task = get_object_or_404(Task, id=task_id)
-    statuses = Status.objects.all()  # Предполагается, что у вас есть модель Status
+    statuses = Status.objects.all()
 
     if request.method == 'POST':
         form = TaskFormUpdate(request.POST, instance=task)

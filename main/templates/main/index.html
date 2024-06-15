@@ -8,29 +8,13 @@
     {% load static %}
     <link rel="stylesheet" type="text/css" href="{% static 'main/css/index.css' %}">
     <div class="row">
-        <div class="col">
-            <h2>Выполнить</h2>
-            {% for task in tasks_done %}
-                {% include 'main/task_card.html' %}
-            {% endfor %}
-        </div>
-        <div class="col">
-            <h2>В работе</h2>
-            {% for task in tasks_in_progress %}
-                {% include 'main/task_card.html' %}
-            {% endfor %}
-        </div>
-        <div class="col">
-            <h2>На проверке</h2>
-            {% for task in tasks_under_review %}
-                {% include 'main/task_card.html' %}
-            {% endfor %}
-        </div>
-        <div class="col">
-            <h2>Готово</h2>
-            {% for task in tasks_completed %}
-                {% include 'main/task_card.html' %}
-            {% endfor %}
-        </div>
+        {% for data in processed_data %}
+            <div class="col">
+                <h2>{{ data.column_name }}</h2>
+                {% for task in data.tasks %}
+                    {% include 'main/task_card.html' %}
+                {% endfor %}
+            </div>
+        {% endfor %}
     </div>
 {% endblock %}
