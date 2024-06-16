@@ -5,7 +5,7 @@ from .models import Task
 class TaskFormCreate(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["title", "task"]
+        fields = ["title", "task", "deadline"]  # Добавлена "deadline" в поля формы
         widgets = {
             "title": forms.TextInput(attrs={
                 'class': 'form-control',
@@ -14,14 +14,23 @@ class TaskFormCreate(forms.ModelForm):
             "task": forms.Textarea(attrs={
                 'class': 'form-control',
                 'placeholder': 'Введите описание'
+            }),
+            "deadline": forms.DateInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Выберите дедлайн',
+                'type': 'date'
             })
         }
+
+        def __init__(self, *args, **kwargs):
+            super(TaskFormCreate, self).__init__(*args, **kwargs)
+            self.fields['deadline'].required = True
 
 
 class TaskFormUpdate(forms.ModelForm):
     class Meta:
         model = Task
-        fields = ["title", "task", "status"]
+        fields = ["title", "task", "deadline", "status"]
         widgets = {
             "title": forms.TextInput(attrs={
                 'class': 'form-control',
@@ -34,4 +43,9 @@ class TaskFormUpdate(forms.ModelForm):
             "status": forms.Select(attrs={
                 'class': 'form-control'
             }),
+            "deadline": forms.DateInput(attrs={
+                'class': 'form-control',
+                'placeholder': 'Выберите дедлайн',
+                'type': 'date'
+            })
         }

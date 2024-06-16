@@ -11,6 +11,7 @@ class Status(models.Model):
 class Task(models.Model):
     title = models.CharField('Название', max_length=50)
     task = models.TextField('Описание')
+    deadline = models.DateField('Дедлайн', null=False)
     status = models.ForeignKey(Status, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
