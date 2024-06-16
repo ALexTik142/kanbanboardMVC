@@ -10,7 +10,7 @@
         {% csrf_token %}
         {{ form.title }}<br>
         {{ form.task }}<br>
-        {{ form.deadline }}<br>
+        <input type="date" name="deadline" value="{{ form.instance.deadline|date:'Y-m-d' }}" class="form-control" required="" id="id_deadline">
         {{ form.status }}<br>
         <button type="submit" class="btn btn-success">Сохранить изменения</button>
         <span>{{ error }}</span>
