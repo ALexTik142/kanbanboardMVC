@@ -3,6 +3,7 @@
         <div>
             <h3>{{ task.title }}</h3>
             <p class="task-description">{{ task.task }}</p>
+            <p><strong>Срок выполнения:</strong> {{ task.deadline|date:"Y-m-d" }}</p>
         </div>
         <div class="task-actions">
             <a href="{% url 'task-update' task.id %}" class="btn btn-success me-2">Изменить</a>
